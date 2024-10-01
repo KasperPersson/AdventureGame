@@ -60,12 +60,15 @@ public class Map {
 
         room1.setEast(room2);
         room1.setSouth(room4);
+        room1.addItem(new Item("Lamp", "A glowing lamp"));
 
         room2.setWest(room1);
         room2.setEast(room3);
+        room2.addItem(new Item("Cape", "A magical cape"));
 
         room3.setSouth(room6);
         room3.setWest(room2);
+        room3.addItem(new Item("Map", "A ripped map"));
 
         room4.setNorth(room1);
         room4.setSouth(room7);

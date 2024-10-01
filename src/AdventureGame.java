@@ -1,6 +1,6 @@
 public class AdventureGame {
     private Player player;
-    public Map map;
+    private Map map;
     private UserInterface ui;
 
     public AdventureGame() {
@@ -25,5 +25,22 @@ public class AdventureGame {
         } else {
             ui.print("You are now in: " + player.getCurrentRoom().getName() + player.getCurrentRoom().getDescriptionOfRoom());
         }
+    }
+
+    public void playerTakeItem(String itemName){
+        player.takeItem(itemName);
+    }
+
+    public void playerDropItem(String itemName){
+        player.dropItem(itemName);
+    }
+
+    public Item findItemInPlayerInventory(String itemName){
+        return player.findItem(itemName);
+    }
+
+    public void showPlayerInventory(){
+        player.showInventory();
+        player.getItems(); //test med array print
     }
 }
