@@ -1,7 +1,7 @@
 public class AdventureGame {
     private Player player;
     private Map map;
-    private UserInterface ui;
+    private UserInterface ui; //Skal måske ikke have en ui?
 
     public AdventureGame() {
         map = new Map();
@@ -55,7 +55,16 @@ public class AdventureGame {
                         ui.print("Please specifiy the item you want to drop");
                     }
                 }
+                case "eat" -> {
+                    if(word.length > 1){
+                        System.out.println(player.eat(word[1]));
+                    } else {
+                        ui.print("Please specifiy the item you want to eat");
+                    }
+                }
                 case "inventory", "inv" -> ui.print(player.showInventory());
+                case "health" -> ui.print(player.getHealth());
+                default -> ui.print("That command is unavailable, type a valid command or type 'help to see available commands");
             }
         }
     }

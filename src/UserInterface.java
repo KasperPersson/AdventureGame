@@ -10,7 +10,7 @@ public class UserInterface {
     public String getInput() {
         Scanner brugerInput = new Scanner(System.in);
         System.out.print("Enter a command: ");
-        return brugerInput.nextLine();
+        return brugerInput.nextLine().toLowerCase();
     }
     public void print(String message) {
         System.out.println(message);

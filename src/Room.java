@@ -22,7 +22,7 @@ public class Room {
         if (!items.isEmpty()) {
             description += "\nItems in the room: ";
             for (Item item : items) {
-                description += item.getShortName() + "\n";
+                description += "\n" + item.getShortName(); //+ "\n";
             }
         } else {
             description += "\nThere are no items in this room.";
@@ -31,15 +31,15 @@ public class Room {
         return description;
     }
 
-    public void addItem (Item item){
+    public void addItem(Item item) {
         items.add(item);
     }
 
-    public void removeItem(Item item){
+    public void removeItem(Item item) {
         items.remove(item);
     }
 
-    public Item findItem (String itemName){
+    public Item findItem(String itemName) {
         for (Item item : items) {
             if (item.getShortName().equalsIgnoreCase(itemName)) {
                 return item;
@@ -52,31 +52,31 @@ public class Room {
         this.north = north;
     }
 
-    public void setEast(Room east){
+    public void setEast(Room east) {
         this.east = east;
     }
 
-    public void setSouth(Room south){
+    public void setSouth(Room south) {
         this.south = south;
     }
 
-    public void setWest(Room west){
+    public void setWest(Room west) {
         this.west = west;
     }
 
-    public Room getNorth(){
+    public Room getNorth() {
         return north;
     }
 
-    public Room getEast(){
+    public Room getEast() {
         return east;
     }
 
-    public Room getSouth(){
+    public Room getSouth() {
         return south;
     }
 
-    public Room getWest(){
+    public Room getWest() {
         return west;
     }
-}}
+}

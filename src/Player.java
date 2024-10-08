@@ -3,10 +3,12 @@ import java.util.ArrayList;
 public class Player {
     private Room currentRoom;
     private ArrayList<Item> playerInventory;
+    private int health;
 
     public Player(Room startRoom) {
-        this.currentRoom = startRoom;
-        this.playerInventory = new ArrayList<>();
+        currentRoom = startRoom;
+        playerInventory = new ArrayList<>();
+        health = 100;
     }
 
     public String takeItem(String itemName){
@@ -28,6 +30,56 @@ public class Player {
             return "You dropped : " + item.getLongName();
         } else {
             return "There is nothing like " + itemName + " in your inventory";
+        }
+    }
+
+//    public String removeItem(String itemName) {
+//        playerInventory.remove(item);
+//        return "You have removed/eaten: ";
+//    }
+
+    public Eat eat (String itemName) {
+        Item item = findItem(itemName);
+        if (item == null){
+            item = currentRoom.findItem(itemName);
+            if (item == null) {
+                return Eat.IS_NOT_FOUND;
+            }
+        }
+        if (item instanceof Food) {
+            Food food = (Food) item;
+            changeHealth(food.getHealthPoints());
+            if(playerInventory.contains(item)) {
+                playerInventory.remove(item);
+            } else {
+                currentRoom.removeItem(item);
+            }
+            return Eat.IS_FOOD;
+        } else {
+            return Eat.IS_NOT_FOOD;
+        }
+    }
+
+    public String getHealth(){
+        String healthStatus;
+        if (health >= 80){
+            healthStatus = "Your health is high";
+        } else if (health >= 50) {
+            healthStatus = "You are in good health, but avoid fighting right now";
+        } else if (health >= 20) {
+            healthStatus = "You are in bad health, be careful";
+        } else {
+            healthStatus = "You are in very bad health, find something to eat!";
+        }
+        return "Health: " + health + " - " + healthStatus;
+    }
+
+    public void changeHealth(int healthGainOrLoose){
+        health += healthGainOrLoose;
+        if (health > 100) {
+            health = 100;
+        } else if (health < 0) {
+            health = 0;
         }
     }
 
