@@ -16,6 +16,5 @@ public class MeleeWeapon extends Weapon {
 
     @Override
     public void use() {
-        // Nærkampvåben har ingen grænse for brug
     }
 }

@@ -12,7 +12,7 @@ public class Player {
         health = 100;
     }
 
-    public String takeItem(String itemName){
+    public String takeItem(String itemName) {
         Item item = currentRoom.findItem(itemName);
         if (item != null) {
             playerInventory.add(item);
@@ -23,7 +23,7 @@ public class Player {
         }
     }
 
-    public String dropItem(String itemName){
+    public String dropItem(String itemName) {
         Item item = findItem(itemName);
         if (item != null) {
             playerInventory.remove(item);
@@ -33,8 +33,9 @@ public class Player {
             return "There is nothing like " + itemName + " in your inventory";
         }
     }
+
     public Equip equip(String itemName) {
-        Item item = findItem(itemName); // Finder varen i spillerens inventar
+        Item item = findItem(itemName);
 
         if (item == null) {
             return Equip.IS_NOT_FOUND;
@@ -46,7 +47,6 @@ public class Player {
         }
     }
 
-    // Attack metoden bruger nu polymorfi
     public String attack() {
         if (equippedWeapon == null) {
             return "You don't have a weapon equipped.";
@@ -59,13 +59,9 @@ public class Player {
         }
     }
 
-    public Weapon getEquippedWeapon(){
-        return equippedWeapon;
-    }
-
-    public Eat eat (String itemName) {
+    public Eat eat(String itemName) {
         Item item = findItem(itemName);
-        if (item == null){
+        if (item == null) {
             item = currentRoom.findItem(itemName);
             if (item == null) {
                 return Eat.IS_NOT_FOUND;
@@ -74,7 +70,7 @@ public class Player {
         if (item instanceof Food) {
             Food food = (Food) item;
             changeHealth(food.getHealthPoints());
-            if(playerInventory.contains(item)) {
+            if (playerInventory.contains(item)) {
                 playerInventory.remove(item);
             } else {
                 currentRoom.removeItem(item);
@@ -85,9 +81,9 @@ public class Player {
         }
     }
 
-    public String getHealth(){
+    public String getHealth() {
         String healthStatus;
-        if (health >= 80){
+        if (health >= 80) {
             healthStatus = "Your health is high";
         } else if (health >= 50) {
             healthStatus = "You are in good health, but avoid fighting right now";
@@ -99,7 +95,7 @@ public class Player {
         return "Health: " + health + " - " + healthStatus;
     }
 
-    public void changeHealth(int healthGainOrLoose){
+    public void changeHealth(int healthGainOrLoose) {
         health += healthGainOrLoose;
         if (health > 100) {
             health = 100;
@@ -125,11 +121,12 @@ public class Player {
         }
         return inventory.toString();
     }
-    public Room getCurrentRoom(){
+
+    public Room getCurrentRoom() {
         return currentRoom;
     }
 
-    public Item findItem (String itemName){
+    public Item findItem(String itemName) {
         for (Item item : playerInventory) {
             if (item.getShortName().equalsIgnoreCase(itemName)) {
                 return item;
