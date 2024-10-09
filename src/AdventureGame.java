@@ -1,84 +1,74 @@
 public class AdventureGame {
     private Player player;
     private Map map;
-    private UserInterface ui; //Skal måske ikke have en ui?
 
     public AdventureGame() {
         map = new Map();
         Room startRoom = map.createRooms();
         player = new Player(startRoom);
-        ui = new UserInterface(this);
 
     }
 
-    public void startGame() {
-        ui.print("As you open your eyes, you find yourself in complete darkness. " +
-                "The air is cold and damp, and the sound of distant dripping water echoes around you.");
-        ui.print(player.getCurrentRoom().getDescriptionOfRoom());
+    public String getHelp() {
+        return "These are the commands you have available:\n" +
+                "'look': Look around and repeat the description of everything you see.\n" +
+                "'go north', 'go south', 'go east', 'go west': Walk in some direction.";
+    }
 
-        boolean running = true;
-        while (running) {
-            String brugerInput = ui.getInput();
-            String[] word = brugerInput.split(" ");
-            String action = word[0];
+    public String look() {
+        return player.getCurrentRoom().getDescriptionOfRoom();
+    }
 
-            switch (action) {
-                case "quit" -> {
-                    ui.print("Thanks for playing! Goodbye.");
-                    return;
-                }
-                case "help" ->
-                        ui.print("These are the commands you have available:\n" +
-                                "'look': Look around and repeat the description of everything you see.\n" +
-                                "'go north', 'go south', 'go east', 'go west': Walk in some direction.");
-                case "look" ->
-                        ui.print(player.getCurrentRoom().getDescriptionOfRoom());
-                case "go" -> {
-                    ui.print("You are moving: ");
-                    if (word.length > 1) {
-                        ui.print(movePlayer(word[1]));
-                    } else {
-                        ui.print("Please specify a direction (north, east, south, west).");
-                    }
-                }
-                case "take" -> {
-                    if (word.length > 1){
-                        ui.print(player.takeItem(word[1]));
-                    } else {
-                        ui.print("Please specify the item you want to take");
-                    }
-                }
-                case "drop" -> {
-                    if(word.length > 1){
-                        ui.print(player.dropItem(word[1]));
-                    } else {
-                        ui.print("Please specifiy the item you want to drop");
-                    }
-                }
-                case "eat" -> {
-                    if(word.length > 1){
-                        System.out.println(player.eat(word[1]));
-                    } else {
-                        ui.print("Please specifiy the item you want to eat");
-                    }
-                }
-                case "inventory", "inv" -> ui.print(player.showInventory());
-                case "health" -> ui.print(player.getHealth());
-                default -> ui.print("That command is unavailable, type a valid command or type 'help to see available commands");
+    public String movePlayer(String direction) {
+        boolean success = player.move(direction);
+
+        if (success) {
+            return "You moved to " + player.getCurrentRoom().getName() + ". " + player.getCurrentRoom().getDescriptionOfRoom();
+        } else {
+            return "You can't go that way.";
+        }
+    }
+
+    public String playerTakeItem(String itemName) {
+        return player.takeItem(itemName);
+    }
+
+    public String playerDropItem(String itemName) {
+        return player.dropItem(itemName);
+    }
+
+    public String showInventory() {
+        return player.showInventory();
+    }
+
+    public String getHealthStatus() {
+        return player.getHealth();
+    }
+
+    public String eatItem(String itemName) {
+        Eat status = player.eat(itemName);
+
+        switch (status) {
+            case IS_FOOD -> {
+                return "You eat the " + itemName + " and feel its effects on your health.";
+            }
+            case IS_NOT_FOOD -> {
+                return "You cannot eat the " + itemName + ". It is not food.";
+            }
+            case IS_NOT_FOUND -> {
+                return "The " + itemName + " is not here or in your inventory.";
+            }
+            default -> {
+                return "An unknown error occurred.";
             }
         }
     }
 
-    public Room getCurrentRoom() {
-        return player.getCurrentRoom();
+    public String equipWeapon(String weaponName) {
+        return player.equip(weaponName).toString();
     }
 
-    public String movePlayer(String direction) {
-        boolean moved = player.move(direction);
-        if (moved) {
-            return "You are now in: " + player.getCurrentRoom().getName() + "\n" + player.getCurrentRoom().getDescriptionOfRoom();
-        } else {
-            return "That way is blocked.";
-        }
+    public String attack() {
+        return player.attack();
     }
 }

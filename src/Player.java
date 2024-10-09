@@ -4,6 +4,7 @@ public class Player {
     private Room currentRoom;
     private ArrayList<Item> playerInventory;
     private int health;
+    private Weapon equippedWeapon = null;
 
     public Player(Room startRoom) {
         currentRoom = startRoom;
@@ -32,11 +33,35 @@ public class Player {
             return "There is nothing like " + itemName + " in your inventory";
         }
     }
+    public Equip equip(String itemName) {
+        Item item = findItem(itemName); // Finder varen i spillerens inventar
 
-//    public String removeItem(String itemName) {
-//        playerInventory.remove(item);
-//        return "You have removed/eaten: ";
-//    }
+        if (item == null) {
+            return Equip.IS_NOT_FOUND;
+        } else if (item instanceof Weapon) {
+            equippedWeapon = (Weapon) item;
+            return Equip.IS_WEAPON;
+        } else {
+            return Equip.IS_NOT_WEAPON;
+        }
+    }
+
+    // Attack metoden bruger nu polymorfi
+    public String attack() {
+        if (equippedWeapon == null) {
+            return "You don't have a weapon equipped.";
+        }
+        if (equippedWeapon.canUse()) {
+            equippedWeapon.use();
+            return "You use your " + equippedWeapon.getShortName() + ". Remaining uses: " + equippedWeapon.remainingUses();
+        } else {
+            return "Your " + equippedWeapon.getShortName() + " can't be used anymore.";
+        }
+    }
+
+    public Weapon getEquippedWeapon(){
+        return equippedWeapon;
+    }
 
     public Eat eat (String itemName) {
         Item item = findItem(itemName);
@@ -84,28 +109,22 @@ public class Player {
     }
 
     public String showInventory() {
+        StringBuilder inventory = new StringBuilder("Inventory:");
+
         if (playerInventory.isEmpty()) {
-            return "You have nothing in your inventory.";
+            inventory.append(" Your inventory is empty.");
         } else {
-            StringBuilder inventory = new StringBuilder("Player inventory:\n");
             for (Item item : playerInventory) {
-                inventory.append(item.getShortName()).append("\n");
+                inventory.append("\n").append(item.getShortName());
             }
-            return inventory.toString();
-        } // Skal have nedenstående metode til at virke istedet
+        }
+        if (equippedWeapon != null) {
+            inventory.append("\nEquipped weapon: ").append(equippedWeapon.getShortName());
+        } else {
+            inventory.append("\nNo weapon equipped.");
+        }
+        return inventory.toString();
     }
-
-//    public String showInventory(){
-//        if (playerInventory.isEmpty()){
-//            return "You have nothing in your inventory.";
-//        } else {
-//            for (Item item : playerInventory) {
-//                System.out.println(item.getShortName());
-//            }
-//            return playerInventory // toString skal laves her
-//        }
-//    }
-
     public Room getCurrentRoom(){
         return currentRoom;
     }

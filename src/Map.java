@@ -62,6 +62,8 @@ public class Map {
         room1.setSouth(room4);
         room1.addItem(new Item("Lamp", "A glowing lamp"));
         room1.addItem((new Food("Apple", "A shiny red apple", 10)));
+        room1.addItem(new MeleeWeapon("Sword", "A rusty sword"));
+        room1.addItem(new RangedWeapon("Bow", "An elven bow", 10));
 
         room2.setWest(room1);
         room2.setEast(room3);
