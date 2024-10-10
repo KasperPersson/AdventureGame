@@ -58,19 +58,17 @@ public class Map {
         room1.setEast(room2);
         room1.setSouth(room4);
         room1.addItem(new Item("Lamp", "A glowing lamp"));
-
         room1.addItem((new Food("Apple", "A shiny red apple", 10)));
-
         room1.addItem(new MeleeWeapon("Sword", "A rusty sword", 20));
-        room1.addItem(new RangedWeapon("Bow", "An elven bow", 30, 10));
-
-        Weapon sword = new MeleeWeapon("Sword", "A sharp sword", 10);
-        room1.addEnemy(new Enemy("Troll", ". The troll is big and looks angry", 50, sword));
 
         room2.setWest(room1);
         room2.setEast(room3);
         room2.addItem(new Item("Cape", "A magical cape"));
-        room2.addItem(new Food("Egg", "A broken egg", -10));
+        room2.addItem(new Food("Egg", " A broken egg", -10));
+        Weapon sword = new MeleeWeapon("Sword: ", " A sharp sword", 10);
+        Weapon bone = new MeleeWeapon("Bone:", " An unspecified type of bone", 20);
+        room2.addEnemy(new Enemy("Troll:", " The troll is big and looks angry", 50, bone));
+        room2.addEnemy(new Enemy("Elf:", " The elf is a mysterious creature, wandering around the room", 45, sword));
 
         room3.setSouth(room6);
         room3.setWest(room2);
@@ -78,21 +76,32 @@ public class Map {
 
         room4.setNorth(room1);
         room4.setSouth(room7);
+        room4.addItem(new Food("Bread", "A delicious sourdough bread", 30));
+        room4.addItem(new RangedWeapon("Bow", "An elven bow", 30, 10));
 
         room5.setSouth(room8);
+        room5.addItem(new Item("Dragon Egg:", " The dragon egg is unhatched, glowing and a steam of heat coming from it"));
+
 
         room6.setSouth(room9);
         room6.setNorth(room3);
+        room6.addItem(new Food("Elixir:", "An ancient elixir, you might need this for later", 100));
 
         room7.setEast(room8);
         room7.setNorth(room4);
+        Weapon dagger = new MeleeWeapon("Dagger", "A long dagger", 15);
+        room7.addEnemy(new Enemy("Goblin:", " The goblin looks friendly, but don't get fooled", 60, dagger));
 
         room8.setNorth(room5);
         room8.setWest(room7);
         room8.setEast(room9);
+        Weapon fire = (new MeleeWeapon("firebreath", "The dragon spits with dangerous fire", 30));
+        room8.addEnemy(new Enemy("Dragon:", ". The dragon growls, with scars all over its body", 100, fire));
 
         room9.setNorth(room6);
         room9.setWest(room8);
+        Weapon teeth = (new MeleeWeapon("venomous teeth", "holds vicious venom", 20));
+        room9.addEnemy(new Enemy("Snake:", " The snake crawls in the shadowy corners, sensing the room with its tongue", 60, teeth));
 
         return room1;
 

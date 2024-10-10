@@ -10,7 +10,11 @@ public class AdventureGame {
     }
 
     public String getHelp() {
-        return "These are the commands you have available:\n" + "'look': Look around and repeat the description of everything you see.\n" + "'go north', 'go south', 'go east', 'go west': Walk in some direction.";
+        return "These are the commands you have available:\n" + "Look: Look around and repeat the description of everything you see.\n" +
+                "'go north', 'go south', 'go east', 'go west': to walk in some direction." + "\nQuit: Quit game" +
+                "\nTake: Take an object" + "\nDrop: Drop an object" + "\nInventory: Check your inventory" +
+                "\nHealth: Gives an status of your health" + "\nEat: Use this command to eat an object and gain or maybe loose health" +
+                "\nEquip: Equip an item" + "\nAttack: Attack with your weapon";
     }
 
     public String look() {
