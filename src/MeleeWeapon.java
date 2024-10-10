@@ -1,7 +1,7 @@
 public class MeleeWeapon extends Weapon {
 
-    public MeleeWeapon(String weaponShortName, String weaponLongName) {
-        super(weaponShortName, weaponLongName);
+    public MeleeWeapon(String weaponShortName, String weaponLongName, int damage) {
+        super(weaponShortName, weaponLongName, damage);
     }
 
     @Override

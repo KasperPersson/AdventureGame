@@ -65,7 +65,13 @@ public class UserInterface {
                         System.out.println("Please specify a weapon to equip");
                     }
                 }
-                case "attack" -> System.out.println(game.attack());
+                case "attack" -> {
+                    if (word.length > 1) {
+                        System.out.println(game.attack(word[1]));
+                    } else {
+                        System.out.println(game.attack());
+                    }
+                }
                 default -> System.out.println("Unknown command: " + action);
             }
         }

@@ -27,6 +27,7 @@ public class Player {
         Item item = findItem(itemName);
         if (item != null) {
             playerInventory.remove(item);
+            equippedWeapon = null;
             currentRoom.addItem(item);
             return "You dropped : " + item.getLongName();
         } else {
@@ -47,16 +48,55 @@ public class Player {
         }
     }
 
-    public String attack() {
+    public String attack(String enemyName) {
+        Enemy enemy;
+
+        if (enemyName == null) {
+            enemy = currentRoom.getNearestEnemy();
+        } else {
+            enemy = currentRoom.getEnemyByName(enemyName);
+        }
+
+        if (enemy == null) {
+            return "There are no enemies to attack.";
+        }
         if (equippedWeapon == null) {
             return "You don't have a weapon equipped.";
         }
-        if (equippedWeapon.canUse()) {
-            equippedWeapon.use();
-            return "You use your " + equippedWeapon.getShortName() + ". Remaining uses: " + equippedWeapon.remainingUses();
-        } else {
+        if (!equippedWeapon.canUse()) {
             return "Your " + equippedWeapon.getShortName() + " can't be used anymore.";
         }
+
+        int damage = equippedWeapon.getDamage();
+        enemy.hit(damage);
+
+        equippedWeapon.use();
+
+        String result = "You use your " + equippedWeapon.getShortName() + " and deal " + damage + " damage to the " + enemy.getName() + ".";
+        int remainingUses = equippedWeapon.remainingUses();
+        if (remainingUses > 0) {
+            result += " Remaining uses: " + remainingUses;
+        }
+        if (!enemy.isAlive()) {
+            Room currentRoom = getCurrentRoom();
+            Weapon droppedWeapon = enemy.dropWeapon();
+            currentRoom.addItem(droppedWeapon);
+            currentRoom.removeEnemy(enemy);
+            result += "\n" + enemy.getName() + " has died and dropped a " + droppedWeapon.getShortName() + ".";
+        } else {
+            result += "\n" + enemy.attack(this);
+        }
+        return result;
+    }
+
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            health = 0;
+        }
+    }
+    public Weapon getEquippedWeapon() {
+        return equippedWeapon;
     }
 
     public Eat eat(String itemName) {
@@ -121,7 +161,6 @@ public class Player {
         }
         return inventory.toString();
     }
-
     public Room getCurrentRoom() {
         return currentRoom;
     }

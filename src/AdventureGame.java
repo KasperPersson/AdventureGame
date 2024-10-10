@@ -10,9 +10,7 @@ public class AdventureGame {
     }
 
     public String getHelp() {
-        return "These are the commands you have available:\n" +
-                "'look': Look around and repeat the description of everything you see.\n" +
-                "'go north', 'go south', 'go east', 'go west': Walk in some direction.";
+        return "These are the commands you have available:\n" + "'look': Look around and repeat the description of everything you see.\n" + "'go north', 'go south', 'go east', 'go west': Walk in some direction.";
     }
 
     public String look() {
@@ -64,11 +62,28 @@ public class AdventureGame {
         }
     }
 
-    public String equipWeapon(String weaponName) {
-        return player.equip(weaponName).toString();
+    public String attack(String enemyName) {
+        return player.attack(enemyName);
     }
 
     public String attack() {
-        return player.attack();
+        return player.attack(null); // Angrib den nærmeste fjende
+    }
+
+    public String equipWeapon(String weaponName) {
+        Equip status = player.equip(weaponName);
+
+        switch (status) {
+            case IS_WEAPON -> {
+                return "You have equipped " + weaponName;
+            }
+            case IS_NOT_WEAPON -> {
+                return weaponName + " is not a weapon";
+            }
+            case IS_NOT_FOUND -> {
+                return weaponName + " is not found in your inventory";
+            }
+        }
+        return "Error, please check your inventory for item";
     }
 }
